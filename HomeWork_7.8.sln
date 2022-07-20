@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task01_EmployeesDirectoryWithStruct", "Task01_EmployeesDirectoryWithStruct\Task01_EmployeesDirectoryWithStruct.csproj", "{8F1773B2-0296-4730-867C-961F8B9B88F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F1773B2-0296-4730-867C-961F8B9B88F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F1773B2-0296-4730-867C-961F8B9B88F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F1773B2-0296-4730-867C-961F8B9B88F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F1773B2-0296-4730-867C-961F8B9B88F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE2600E2-6C52-4EC9-9E09-BE2501D932E4}
+	EndGlobalSection
+EndGlobal
