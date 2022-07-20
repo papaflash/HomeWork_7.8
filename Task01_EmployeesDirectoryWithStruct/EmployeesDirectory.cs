@@ -202,8 +202,7 @@ namespace Task01_EmployeesDirectoryWithStruct
                     Console.Write("Ваш выбор полей: ");
                     if (!int.TryParse(Console.ReadLine(), out int fieldNum))
                     {
-                        Console.WriteLine("Вы ввели не допустимое значение!");
-                        continue;
+                        fieldNum = -1;
                     }
                     switch (fieldNum)
                     {
@@ -244,7 +243,7 @@ namespace Task01_EmployeesDirectoryWithStruct
                             break;
                         default:
                             Console.WriteLine("Поле с таким номером не существует!");
-                            break;
+                            return;
                     }
                     Console.WriteLine("Данные обновлены:");
                     PrintTitles();
@@ -330,8 +329,6 @@ namespace Task01_EmployeesDirectoryWithStruct
             {
                 Console.WriteLine(Employees[id - 1].ToString());
             }
-            else
-                Console.WriteLine("Информация о работнике с таким ID не найдена!");
             Console.WriteLine(new String('=', 120));
         }
         /// <summary>

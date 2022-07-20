@@ -26,7 +26,7 @@ namespace Task01_EmployeesDirectoryWithStruct
             bool flag = true;
             while (flag)
             {
-                Console.WriteLine("Управление справочником: \n\t1 - Показать все записи справочника" +
+                Console.WriteLine("Управление справочником: \n\t1 - Показать справочник" +
                     "\n\t2 - Показать записи в диапазоне дат(ы)\n\t3 - Добавить новых работников" +
                     "\n\t4 - Редактировать информацию о работнике\n\t5 - Удалить работника из справочника" +
                     "\n\t6 - Сортировка по дате(по возрастанию)\n\t7 - Сортировка по дате(по убыванию)\n\tEnter - завершить работу программы");
@@ -34,7 +34,11 @@ namespace Task01_EmployeesDirectoryWithStruct
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        employees.PrintEmployeesList();
+                        Console.Write("Введите ID сотрудника или нажмите - Enter для вывода полного списка: ");
+                        if(!int.TryParse(Console.ReadLine(), out int selectedId))
+                            employees.PrintEmployeesList();
+                        else
+                            employees.PrintEmployeesList(selectedId);
                         break;
                     case "2":
                         employees.PrintEmployeesListWithRange();
