@@ -26,9 +26,10 @@ namespace Task01_EmployeesDirectoryWithStruct
             bool flag = true;
             while (flag)
             {
-                Console.WriteLine("Управление справочником: \n\t1 - Показать справочник\n\t2 - Добавить новых работников" +
-                    "\n\t3 - Редактировать информацию о работнике\n\t4 - Удалить работника из справочника" +
-                    "\n\t5 - Сортировка по дате(по возрастанию)\n\t6 - Сортировка по дате(по убыванию)\n\tEnter - завершить работу программы");
+                Console.WriteLine("Управление справочником: \n\t1 - Показать все записи справочника" +
+                    "\n\t2 - Показать записи в диапазоне дат(ы)\n\t3 - Добавить новых работников" +
+                    "\n\t4 - Редактировать информацию о работнике\n\t5 - Удалить работника из справочника" +
+                    "\n\t6 - Сортировка по дате(по возрастанию)\n\t7 - Сортировка по дате(по убыванию)\n\tEnter - завершить работу программы");
                 Console.Write("Ваш выбор: ");
                 switch (Console.ReadLine())
                 {
@@ -36,19 +37,22 @@ namespace Task01_EmployeesDirectoryWithStruct
                         employees.PrintEmployeesList();
                         break;
                     case "2":
-                        employees.AddEmployeeInfo();
+                        employees.PrintEmployeesListWithRange();
                         break;
                     case "3":
-                        employees.UpdateEmployeeInfo();
+                        employees.AddEmployeeInfo();
                         break;
                     case "4":
-                        employees.RemoveEmployeeInfo();
+                        employees.UpdateEmployeeInfo();
                         break;
                     case "5":
+                        employees.RemoveEmployeeInfo();
+                        break;
+                    case "6":
                         employees.SortEmployeeArray(employees.Employees, 0, employees.Index - 1);
                         employees.PrintEmployeesList();
                         break;
-                    case "6":
+                    case "7":
                         employees.SortEmployeeArray(employees.Employees, 0, employees.Index - 1, false);
                         employees.PrintEmployeesList();
                         break;

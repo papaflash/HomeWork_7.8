@@ -13,6 +13,9 @@ namespace Task01_EmployeesDirectoryWithStruct
         const int COUNT_TITLES = 9;
         string _filePath;
         int _index;
+        /// <summary>
+        /// Кол-во элементов в массиве работников
+        /// </summary>
         public int Index { get { return _index; } set { _index = value; } }
         string[] _titles;
         /// <summary>
@@ -29,7 +32,7 @@ namespace Task01_EmployeesDirectoryWithStruct
         /// <param name="index"></param>
         /// <returns></returns>
         public Employee this[int index]
-        { 
+        {
             get { return _employees[index]; }
             set { _employees[index] = value; }
         }
@@ -47,7 +50,6 @@ namespace Task01_EmployeesDirectoryWithStruct
         {
             using (StreamReader reader = new StreamReader(new FileStream(FilePath, FileMode.OpenOrCreate, FileAccess.Read)))
             {
-               
                 while (!reader.EndOfStream)
                 {
                     if (Index >= Employees.Length)
@@ -94,14 +96,14 @@ namespace Task01_EmployeesDirectoryWithStruct
         /// <param name="employees">Массив с информацией о рабочих</param>
         private void SaveEmployeeList()
         {
-            if(Index == 0)
+            if (Index == 0)
             {
                 Console.WriteLine("Нет данных для записи!");
                 return;
-            }  
+            }
             using (StreamWriter writer = new StreamWriter(new FileStream(FilePath, FileMode.Create, FileAccess.Write)))
             {
-                for(int i = 0; i < Index; i++)
+                for (int i = 0; i < Index; i++)
                 {
                     //Employees[i].DateRecord = DateTime.Now;
                     writer.WriteLine(Employees[i].ToStringForWrite());
@@ -141,7 +143,7 @@ namespace Task01_EmployeesDirectoryWithStruct
                     Console.WriteLine(new String('=', 120));
                     break;
                 }
-                    
+
             }
             PrintEmployeesList();
             SaveEmployeeList();
@@ -152,18 +154,19 @@ namespace Task01_EmployeesDirectoryWithStruct
         /// <param name="id">Номер сотрудника</param>
         internal void RemoveEmployeeInfo()
         {
+            if (!CheckCountElements()) return;
             PrintEmployeesList();
             Console.Write("Введите номер сотрудника для удаления: ");
-            if(!int.TryParse(Console.ReadLine(), out int id))
+            if (!int.TryParse(Console.ReadLine(), out int id))
             {
                 Console.WriteLine("Вы ввели не допустимое значение!");
                 return;
             }
-            if(CheckIdRange(id))
+            if (CheckIdRange(id))
             {
                 id--;
                 Employee[] newEmployees = new Employee[Employees.Length];
-                for(int i = 0, j = 0; i < Index; i++, j++)
+                for (int i = 0, j = 0; i < Index; i++, j++)
                 {
                     if (id == j)
                         j++;
@@ -243,7 +246,7 @@ namespace Task01_EmployeesDirectoryWithStruct
                             Console.WriteLine("Поле с таким номером не существует!");
                             break;
                     }
-                    Console.WriteLine("Данные обновлены:");                    
+                    Console.WriteLine("Данные обновлены:");
                     PrintTitles();
                     Employees[currIndex].DateRecord = DateTime.Now;
                     Console.WriteLine(Employees[currIndex]);
@@ -253,7 +256,7 @@ namespace Task01_EmployeesDirectoryWithStruct
             }
         }
         /// <summary>
-        /// Метод сортировки массива по дате создания
+        /// Метод сортировки массива по дате создания записей
         /// </summary>
         /// <param name="empArr">массив с информацие о работниках</param>
         /// <param name="start">индекс начала массива</param>
@@ -261,11 +264,7 @@ namespace Task01_EmployeesDirectoryWithStruct
         /// <param name="sortByAsc">необязательный аргумент, для выбора направления сортировки</param>
         internal void SortEmployeeArray(Employee[] empArr, int start, int end, bool sortByAsc = true)
         {
-            if(Index <= 0)
-            {
-                Console.WriteLine("Не чего сортировать, массив пустой!");
-                return;
-            }
+            if (CheckCountElements()) return;
             if (start >= end) return;
             int pivot = SortPartition(empArr, start, end, sortByAsc);
             SortEmployeeArray(empArr, start, pivot - 1, sortByAsc);
@@ -305,7 +304,7 @@ namespace Task01_EmployeesDirectoryWithStruct
                         }
                         break;
                 }
-                
+
             }
             return marker - 1;
         }
@@ -314,7 +313,7 @@ namespace Task01_EmployeesDirectoryWithStruct
         /// </summary>
         private void PrintTitles()
         {
-            Console.WriteLine($"{" ID", -3} {"Дата записи",15} {"Фамилия",15} {"Имя", 10} {"Отчество", 15} {"Возраст", 10} {"Рост", 5} {"Дата рождения", 15} {"Место рождения", 15}");
+            Console.WriteLine($"{" ID",-3} {"Дата записи",15} {"Фамилия",15} {"Имя",10} {"Отчество",15} {"Возраст",10} {"Рост",5} {"Дата рождения",15} {"Место рождения",15}");
         }
         /// <summary>
         /// Метод вывода на экран информацию о работниках
@@ -322,7 +321,7 @@ namespace Task01_EmployeesDirectoryWithStruct
         internal void PrintEmployeesList(int id = -1)
         {
             PrintTitles();
-            if(id == -1)
+            if (id == -1)
             {
                 for (int i = 0; i < Index; i++)
                     Console.WriteLine(Employees[i].ToString());
@@ -334,6 +333,55 @@ namespace Task01_EmployeesDirectoryWithStruct
             else
                 Console.WriteLine("Информация о работнике с таким ID не найдена!");
             Console.WriteLine(new String('=', 120));
+        }
+        /// <summary>
+        /// Метод вывода на экран информации в диапазоне дат(ы)
+        /// </summary>
+        internal void PrintEmployeesListWithRange()
+        {
+            DateRange range = ParseDateRange();
+            PrintTitles();
+            if (range.Start == DateTime.MinValue && range.End == DateTime.MinValue)
+            {
+                Console.WriteLine("Вы не указали или некорректно ввели диапазон дат!");
+            }
+            else if (range.End == range.Start)
+            {
+                for (int i = 0; i < Index; i++)
+                {
+                    if (Employees[i].DateRecord.ToShortDateString() == range.Start.ToShortDateString())
+                        Console.WriteLine(Employees[i]);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Index; i++)
+                {
+                    if (Employees[i].DateRecord >= range.Start && Employees[i].DateRecord <= range.End.AddDays(1))
+                        Console.WriteLine(Employees[i]);
+                }
+            }
+            Console.WriteLine(new String('=', 120));
+        }
+        /// <summary>
+        /// Метод для извлечение из строки диапазон дат(ы)
+        /// </summary>
+        /// <returns>возвращает структуру с диапазоном дат</returns>
+        private DateRange ParseDateRange()
+        {
+            Console.Write("Введите дату или диапазон дат, диапазон дат должен быть разделен \"-\": ");
+            string[] dates = Console.ReadLine().Split('-');
+            if (dates.Length == 1 && !string.IsNullOrEmpty(dates[0]))
+            {
+                DateTime date = DateTime.Parse(dates[0]);
+                return new DateRange(date, date);
+            }
+            else if (dates.Length == 2)
+            {
+                return new DateRange(DateTime.Parse(dates[0]), DateTime.Parse(dates[1]));
+            }
+            else
+                return new DateRange();
         }
         /// <summary>
         /// Метод проверки вхождения выбранного номера в списке работников
@@ -349,6 +397,19 @@ namespace Task01_EmployeesDirectoryWithStruct
                 Console.WriteLine("Информация по данному ID не найдена!");
                 return false;
             }
+        }
+        /// <summary>
+        /// Проверка на наличие записей в массиве
+        /// </summary>
+        /// <returns></returns>
+        private bool CheckCountElements()
+        {
+            if (Index == 0)
+            {
+                Console.WriteLine("В списке нет записей!");
+                return false;
+            }
+            return true;
         }
     }
 }
